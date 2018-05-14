@@ -19,7 +19,7 @@ public class Cours {
     //Pattern qui detecte dans une chaine les chaines suivantes : S1, S2, S3, S4, S1a, S1b, S1c, S1a1, S1b1, S1c1 etc...
     private Pattern patternDUT = Pattern.compile("s[1-4]([lvLV]{2}2[a-z]+|(([abc])([12])?)?)",Pattern.CASE_INSENSITIVE);
     //Pattern qui detecte dans une chaine la chaine suivante : LPSMIN
-    private Pattern patternLPSMI = Pattern.compile("LPSMIN",Pattern.CASE_INSENSITIVE);
+    private Pattern patternLPSMIN = Pattern.compile("LPSMIN",Pattern.CASE_INSENSITIVE);
     private Matcher matcher;
 
 
@@ -81,15 +81,13 @@ public class Cours {
         {
             try
             {
-                this.matcher = this.patternLPSMI.matcher(event.getDescription().getValue());
+                this.matcher = this.patternLPSMIN.matcher(event.getDescription().getValue());
             }
             catch(Exception e1)
             {
                 return null;
-
             }
         }
-
         return this.matcher.group();
     }
 

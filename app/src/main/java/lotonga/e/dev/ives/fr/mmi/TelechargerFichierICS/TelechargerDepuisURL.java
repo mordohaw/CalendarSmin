@@ -23,10 +23,8 @@ public class TelechargerDepuisURL {
             // add request header
             //request.addHeader("User-Agent", USER_AGENT);
             HttpResponse response = client.execute(request);
-
             System.out.println("Response Code : "
                     + response.getStatusLine().getStatusCode());
-            //System.out.println(response.getEntity().getContent().);
             BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             return rd;
         }
@@ -63,6 +61,6 @@ public class TelechargerDepuisURL {
     
     public static void main(String[] args) {
     	String url = "http://ade6-ujf-ro.grenet.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=7265&projectId=2&calType=ical&firstDate=2018-05-13&lastDate=2018-05-18";
-		TelechargerDepuisURL.TelechargerFichier(url, "C:\Users\mkmkmk\Documents\TravauxSMIN\TestTelechargementIC\ADEICS.ics")
+		TelechargerDepuisURL.TelechargerFichier(url, "C:/Users/mkmkmk/Documents/TravauxSMIN/TestTelechargementIC/ADEICS.ics");
 	}
 }
