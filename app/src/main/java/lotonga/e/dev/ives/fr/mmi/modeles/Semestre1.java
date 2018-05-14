@@ -7,13 +7,13 @@ public class Semestre1 extends Semestre {
     private Semestre1A s1a;
     private Semestre1B s1b;
     private Semestre1C s1c;
-    public Semestre1(Semestre1A s1a, Semestre1B s1b, Semestre1C s1c)
+    public Semestre1(Semaine semaine)
 
     {
         super();
-        this.s1a = s1a;
-        this.s1b = s1b;
-        this.s1c = s1c;
+        this.s1a = new Semestre1A( semaine );
+        this.s1b = new Semestre1B( semaine );
+        this.s1c = new Semestre1C( semaine);
         this.emplois_du_temps.put("s1a", s1a.getEmplois_Du_Temps());
         this.emplois_du_temps.put("s1b", s1b.getEmplois_Du_Temps());
         this.emplois_du_temps.put("s1c", s1c.getEmplois_Du_Temps());

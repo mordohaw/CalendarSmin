@@ -6,12 +6,41 @@ import java.util.HashMap;
 public class Semestre3 extends Semestre {
 
 
-    public Semestre3(Semestre3A s3a, Semestre3B s3b, Semestre3C s3c )
+    private SousSemestre s3a, s3b, s3c;
+    public Semestre3(Semaine semaine )
     {
         super();
-        this.emplois_du_temps.put("s3a", s3a.getEmplois_Du_Temps());
-        this.emplois_du_temps.put("s3b", s3b.getEmplois_Du_Temps());
-        this.emplois_du_temps.put("s3c", s3c.getEmplois_Du_Temps());
+        this.s3a = new Semestre3A( semaine );
+        this.s3b = new Semestre3B( semaine );
+        this.s3c = new Semestre3C( semaine );
+        this.emplois_du_temps.put("s3a", this.s3a.getEmplois_Du_Temps());
+        this.emplois_du_temps.put("s3b", this.s3b.getEmplois_Du_Temps());
+        this.emplois_du_temps.put("s3c", this.s3c.getEmplois_Du_Temps());
+    }
+
+
+    public Semestre3A getS3a() {
+        return (Semestre3A)this.s3a;
+    }
+
+    public void setS3a(Semestre3A s3a) {
+        this.s3a = s3a;
+    }
+
+    public Semestre3B getS3b() {
+        return (Semestre3B)this.s3b;
+    }
+
+    public void setS3b(Semestre3B s3b) {
+        this.s3b = s3b;
+    }
+
+    public Semestre3C getS3c() {
+        return (Semestre3C)this.s3c;
+    }
+
+    public void setS3c(Semestre3C s3c) {
+        this.s3c = s3c;
     }
 
     /***********************************************************************************************

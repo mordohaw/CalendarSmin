@@ -1,5 +1,7 @@
 package lotonga.e.dev.ives.fr.mmi.modeles;
 
+import android.util.Log;
+
 import net.fortuna.ical4j.model.component.VEvent;
 
 import java.util.regex.Matcher;
@@ -21,7 +23,6 @@ public class Cours {
     //Pattern qui detecte dans une chaine la chaine suivante : LPSMIN
     private Pattern patternLPSMIN = Pattern.compile("LPSMIN",Pattern.CASE_INSENSITIVE);
     private Matcher matcher;
-
 
 
     //Listes des professeur de l'IUT1 département MMI (Métier du multimédia et de l'internet
@@ -59,12 +60,10 @@ public class Cours {
             this.extraireGroupe(event);
         }
         String description = event.getDescription().getValue();
-        String nomProf = description.substring(this.matcher.end(), description.length()).replaceAll("\\(.+)",""); // On extrait le nom du prof selon le positionnement du nom du groupe
+        String nomProf = description.substring(this.matcher.end(), description.length()).replaceAll(" ",""); // On extrait le nom du prof selon le positionnement du nom du groupe
         nomProf.replaceAll("^\\s",""); // On supprime les espaces, les retour à ligne etc ... de la chaine
         return nomProf;
     }
-
-
 
     /**
      * Detecter le groupe du cours ex: LPSMIN, S1A1, S2B1, S3C2 etc ...
@@ -85,14 +84,12 @@ public class Cours {
             }
             catch(Exception e1)
             {
+                Log.e("ExtraireGroupe()", "extraireGroupe: Groupe cours introuvable" );
                 return null;
             }
         }
         return this.matcher.group();
     }
-
-
-
 
     public void setGroupe(String groupe) {
         this.groupe = groupe;

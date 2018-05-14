@@ -5,13 +5,40 @@ import java.util.HashMap;
 
 public class Semestre4 extends Semestre {
 
-
-    public Semestre4(Semestre4A s4a, Semestre4B s4b, Semestre4C s4c )
+    private SousSemestre s4a, s4b, s4c;
+    public Semestre4(Semaine semaine )
     {
         super();
-        this.emplois_du_temps.put("s4a", s4a.getEmplois_Du_Temps());
-        this.emplois_du_temps.put("s4b", s4a.getEmplois_Du_Temps());
-        this.emplois_du_temps.put("s4c", s4a.getEmplois_Du_Temps());
+        this.s4a = new Semestre4A( semaine );
+        this.s4b = new Semestre4B( semaine );
+        this.s4c = new Semestre4C( semaine );
+        this.emplois_du_temps.put("s4a", this.s4a.getEmplois_Du_Temps());
+        this.emplois_du_temps.put("s4b", this.s4b.getEmplois_Du_Temps());
+        this.emplois_du_temps.put("s4c", this.s4c.getEmplois_Du_Temps());
+    }
+
+    public Semestre4A getS4a() {
+        return (Semestre4A)this.s4a;
+    }
+
+    public void setS4a(Semestre4A s4a) {
+        this.s4a = s4a;
+    }
+
+    public Semestre4B getS4b() {
+        return (Semestre4B)this.s4b;
+    }
+
+    public void setS4b(SousSemestre s4b) {
+        this.s4b = s4b;
+    }
+
+    public Semestre4C getS4c() {
+        return (Semestre4C)this.s4c;
+    }
+
+    public void setS4c(SousSemestre s4c) {
+        this.s4c = s4c;
     }
 
     /***********************************************************************************************

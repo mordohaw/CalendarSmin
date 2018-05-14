@@ -4,14 +4,41 @@ import java.util.ArrayList;
 
 public class Semestre2 extends Semestre {
 
-    public Semestre2( Semestre2A s2a, Semestre2B s2b, Semestre2C s2c)
+    private SousSemestre s2a, s2b, s2c;
+    public Semestre2( Semaine semaine )
     {
         super();
+        this.s2a = new Semestre2A( semaine );
+        this.s2b = new Semestre2B( semaine );
+        this.s2c = new Semestre2C( semaine );
         this.emplois_du_temps.put("s2a", s2a.getEmplois_Du_Temps());
         this.emplois_du_temps.put("s2b", s2b.getEmplois_Du_Temps());
         this.emplois_du_temps.put("s2c", s2c.getEmplois_Du_Temps());
     }
 
+    public Semestre2A getS2a() {
+        return (Semestre2A)this.s2a;
+    }
+
+    public void setS2a(Semestre2A s2a) {
+        this.s2a = s2a;
+    }
+
+    public Semestre2B getS2b() {
+        return (Semestre2B)this.s2b;
+    }
+
+    public void setS2b(Semestre2B s2b) {
+        this.s2b = s2b;
+    }
+
+    public Semestre2C getS2c() {
+        return (Semestre2C)this.s2c;
+    }
+
+    public void setS2c(Semestre2C s2c) {
+        this.s2c = s2c;
+    }
 
     /***********************************************************************************************
      * *********************************************************************************************
