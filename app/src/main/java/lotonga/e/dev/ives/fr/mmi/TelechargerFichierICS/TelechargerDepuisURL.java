@@ -25,7 +25,7 @@ public class TelechargerDepuisURL {
             LocalDateTime date = LocalDateTime.now();
             year = date.getYear();
             month = date.getMonthValue();
-            day = date.getDayOfWeek().getValue();
+            day = date.getDayOfMonth();
             //ZonedDateTime zdt = ZonedDateTime.now();
         }
         else
@@ -105,9 +105,5 @@ public class TelechargerDepuisURL {
             return false;
         }
     }
-    
-    public static void main(String[] args) {
-    	String url = "http://ade6-ujf-ro.grenet.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=7265&projectId=2&calType=ical&firstDate=2018-05-13&lastDate=2018-05-18";
-		TelechargerDepuisURL.TelechargerFichier(url, "C:/Users/mkmkmk/Documents/TravauxSMIN/TestTelechargementIC/ADEICS.ics");
-	}
+
 }
