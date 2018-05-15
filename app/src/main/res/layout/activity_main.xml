@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <Button
+    <!--<Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/ajout"
@@ -19,6 +19,6 @@
         android:text="Supprimer Cours"
         android:onClick="SuppCours"
         android:layout_alignParentRight="true"/>
-
+-->
 
 </RelativeLayout>

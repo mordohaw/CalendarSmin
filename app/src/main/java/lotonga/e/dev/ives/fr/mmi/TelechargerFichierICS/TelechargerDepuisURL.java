@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 import java.util.Date;
 
 public class TelechargerDepuisURL {
@@ -52,6 +51,8 @@ public class TelechargerDepuisURL {
             HttpResponse response = client.execute(request);
             System.out.println("Response Code : "
                     + response.getStatusLine().getStatusCode());
+            //response.
+
             BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
             return rd;
         }
@@ -59,25 +60,7 @@ public class TelechargerDepuisURL {
         {}
         return null;
     }
-    public static BufferedReader getContentTO(String dateFin)
-    {
-        try
-        {
-            base_url += "firstDate="+getCurrentDate()+"&lastDate="+dateFin;
-            HttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet(base_url);
-            // add request header
-            //request.addHeader("User-Agent", USER_AGENT);
-            HttpResponse response = client.execute(request);
-            System.out.println("Response Code : "
-                    + response.getStatusLine().getStatusCode());
-            BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-            return rd;
-        }
-        catch(Exception e)
-        {}
-        return null;
-    }
+
 
     public static boolean TelechargerFichier( String destination, String dateFin )
     {
