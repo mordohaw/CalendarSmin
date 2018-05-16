@@ -2,6 +2,7 @@ package lotonga.e.dev.ives.fr.mmi.modeles;
 
 import android.util.Log;
 
+import net.fortuna.ical4j.model.ComponentList;
 import net.fortuna.ical4j.model.component.VEvent;
 
 import java.util.ArrayList;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 public class Main {
 
     public Semaine s;
-    public Cours c;
     public SousSemestre s1a, s1b, s1c, s2a, s2b, s2c, s3a, s3b, s3c, s4a, s4b, s4c;
     public SemestreLangue s1lv2, s2lv2, s3lv2 ;
     public Semestre s1, s2, s3, s4;
@@ -22,7 +22,7 @@ public class Main {
     {
         try
         {
-            this.c = new Cours(event);
+            Cours c = new Cours(event);
             this.s = new Semaine();
             s.ajoutCours(c);
             this.lpsmin = new LPSMIN(this.s);
@@ -47,7 +47,7 @@ public class Main {
         {
             try
             {
-                this.c = new Cours(ev);
+                Cours c = new Cours(ev);
                 this.s.ajoutCours(c);
             }
             catch (Exception e)
@@ -66,12 +66,30 @@ public class Main {
         {
             try
             {
-                this.c = new Cours(ev);
+                Cours c = new Cours(ev);
                 this.s.ajoutCours(c);
             }
             catch (Exception e)
             {
                 Log.e("Main.class init(event)", "Initialisation Semaine Impossible" );
+            }
+        }
+        this.init();
+    }
+
+    public Main(ComponentList cl)
+    {
+        this.s = new Semaine();
+        for(int i=0; i < cl.size(); i++)
+        {
+            try
+            {
+                Cours c = new Cours((VEvent) cl.get(i));
+                this.s.ajoutCours(c);
+            }
+            catch (Exception e)
+            {
+                Log.e("MAIN CONSTRUTEUR", "Main: Impossible de creer le cours !" );
             }
         }
         this.init();
