@@ -100,11 +100,19 @@ public class Semaine {
         this.s3LV2Italien = new ArrayList<>();
     }
 
-
-
     public boolean supprimerCours(Cours c, boolean coursLangue) throws IllegalArgumentException
     {
         boolean coursSupprimer = false;
+        if( c.getGroupe().equalsIgnoreCase("lpsmin"))
+        {
+            for (Cours c1 : this.LPSMIN)
+            {
+                if(c1.getUid().equalsIgnoreCase(c.getUid()))
+                {
+                    this.LPSMIN.remove(c1);
+                }
+            }
+        }
         if(coursLangue) // Traitement du cas d'un cours de langues { Allemand, espagnol et Italien }
         {
 
@@ -113,7 +121,7 @@ public class Semaine {
                 case "s1lv2allemand":
                     for (Cours c1 : this.getS1LV2Allemand())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1LV2Allemand().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -124,7 +132,7 @@ public class Semaine {
                 case "s1lv2espagnol1":
                     for (Cours c1 : this.getS1LV2Espagnol1())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1LV2Espagnol1().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -135,7 +143,7 @@ public class Semaine {
                 case "s1lv2espagnol2":
                     for (Cours c1 : this.getS1LV2Espagnol2())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1LV2Espagnol2().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -146,7 +154,7 @@ public class Semaine {
                 case "s1lv2espagnol3":
                     for (Cours c1 : this.getS1LV2Espagnol3())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1LV2Espagnol3().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -157,7 +165,7 @@ public class Semaine {
                 case "s1lv2italien":
                     for (Cours c1 : this.getS1LV2Italien())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1LV2Italien().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -169,7 +177,7 @@ public class Semaine {
                 case "s2lv2allemand":
                     for (Cours c1 : this.getS2LV2Allemand())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2LV2Allemand().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -180,7 +188,7 @@ public class Semaine {
                 case "s2lv2espagnol1":
                     for (Cours c1 : this.getS2LV2Espagnol1())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2LV2Espagnol1().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -191,7 +199,7 @@ public class Semaine {
                 case "s2lv2espagnol2":
                     for (Cours c1 : this.getS2LV2Espagnol2())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2LV2Espagnol2().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -202,7 +210,7 @@ public class Semaine {
                 case "s2lv2espagnol3":
                     for (Cours c1 : this.getS2LV2Espagnol3())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2LV2Espagnol3().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -213,7 +221,7 @@ public class Semaine {
                 case "s2lv2italien":
                     for (Cours c1 : this.getS2LV2Italien())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2LV2Italien().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -225,7 +233,7 @@ public class Semaine {
                 case "s3lv2allemand":
                     for (Cours c1 : this.getS3LV2Allemand())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3LV2Allemand().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -236,7 +244,7 @@ public class Semaine {
                 case "s3lv2espagnol1":
                     for (Cours c1 : this.getS3LV2Espagnol1())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3LV2Espagnol1().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -247,7 +255,7 @@ public class Semaine {
                 case "s3lv2espagnol2":
                     for (Cours c1 : this.getS3LV2Espagnol2())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3LV2Espagnol2().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -258,7 +266,7 @@ public class Semaine {
                 case "s3lv2espagnol3":
                     for (Cours c1 : this.getS3LV2Espagnol3())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3LV2Espagnol3().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -269,7 +277,7 @@ public class Semaine {
                 case "s3lv2italien":
                     for (Cours c1 : this.getS3LV2Italien())
                     { // On parcours les cours allemand du semestre 1
-                        if(c1.equals(c))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3LV2Italien().remove(c1); // On supprime le cours spécifié en arguments
                             coursSupprimer = true;
@@ -289,7 +297,7 @@ public class Semaine {
                 case "s1a1":
                     for (Cours c1 : this.getS1a1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1a1().remove(c);
                             coursSupprimer = true;
@@ -300,7 +308,7 @@ public class Semaine {
                 case "s1a2":
                     for (Cours c1 : this.getS1a2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1a2().remove(c);
                             coursSupprimer = true;
@@ -311,7 +319,7 @@ public class Semaine {
                 case "s1b1":
                     for (Cours c1 : this.getS1b1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1b1().remove(c);
                             coursSupprimer = true;
@@ -322,7 +330,7 @@ public class Semaine {
                 case "s1b2":
                     for (Cours c1 : this.getS1b2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1b2().remove(c);
                             coursSupprimer = true;
@@ -333,7 +341,7 @@ public class Semaine {
                 case "s1c1":
                     for (Cours c1 : this.getS1c1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1c1().remove(c);
                             coursSupprimer = true;
@@ -344,7 +352,7 @@ public class Semaine {
                 case "s1c2":
                     for (Cours c1 : this.getS1c2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS1c2().remove(c);
                             coursSupprimer = true;
@@ -355,7 +363,7 @@ public class Semaine {
                 case "s2a1":
                     for (Cours c1 : this.getS2a1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2a1().remove(c);
                             coursSupprimer = true;
@@ -366,7 +374,7 @@ public class Semaine {
                 case "s2a2":
                     for (Cours c1 : this.getS2a2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2a2().remove(c);
                             coursSupprimer = true;
@@ -377,7 +385,7 @@ public class Semaine {
                 case "s2b1":
                     for (Cours c1 : this.getS2b1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2b1().remove(c);
                             coursSupprimer = true;
@@ -388,7 +396,7 @@ public class Semaine {
                 case "s2b2":
                     for (Cours c1 : this.getS2b2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2b2().remove(c);
                             coursSupprimer = true;
@@ -399,7 +407,7 @@ public class Semaine {
                 case "s2c1":
                     for (Cours c1 : this.getS2c1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2c1().remove(c);
                             coursSupprimer = true;
@@ -410,7 +418,7 @@ public class Semaine {
                 case "s2c2":
                     for (Cours c1 : this.getS2c2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS2c2().remove(c);
                             coursSupprimer = true;
@@ -421,7 +429,7 @@ public class Semaine {
                 case "s3a1":
                     for (Cours c1 : this.getS3a1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3a1().remove(c);
                             coursSupprimer = true;
@@ -432,7 +440,7 @@ public class Semaine {
                 case "s3a2":
                     for (Cours c1 : this.getS3a2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3a2().remove(c);
                             coursSupprimer = true;
@@ -443,7 +451,7 @@ public class Semaine {
                 case "s3b1":
                     for (Cours c1 : this.getS3b1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3b1().remove(c);
                             coursSupprimer = true;
@@ -454,7 +462,7 @@ public class Semaine {
                 case "s3b2":
                     for (Cours c1 : this.getS3b2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3b2().remove(c);
                             coursSupprimer = true;
@@ -465,7 +473,7 @@ public class Semaine {
                 case "s3c1":
                     for (Cours c1 : this.getS3c1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3c1().remove(c);
                             coursSupprimer = true;
@@ -476,7 +484,7 @@ public class Semaine {
                 case "s3c2":
                     for (Cours c1 : this.getS3c2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS3c2().remove(c);
                             coursSupprimer = true;
@@ -487,7 +495,7 @@ public class Semaine {
                 case "s4a1":
                     for (Cours c1 : this.getS4a1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS4a1().remove(c);
                             coursSupprimer = true;
@@ -498,7 +506,7 @@ public class Semaine {
                 case "s4a2":
                     for (Cours c1 : this.getS4a2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS4a2().remove(c);
                             coursSupprimer = true;
@@ -509,7 +517,7 @@ public class Semaine {
                 case "s4b1":
                     for (Cours c1 : this.getS4b1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS4b1().remove(c);
                             coursSupprimer = true;
@@ -520,7 +528,7 @@ public class Semaine {
                 case "s4b2":
                     for (Cours c1 : this.getS4b2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS4b2().remove(c);
                             coursSupprimer = true;
@@ -531,7 +539,7 @@ public class Semaine {
                 case "s4c1":
                     for (Cours c1 : this.getS4c1() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS4c1().remove(c);
                             coursSupprimer = true;
@@ -542,7 +550,7 @@ public class Semaine {
                 case "s4c2":
                     for (Cours c1 : this.getS4c2() )
                     {
-                        if(c.equals(c1))
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
                             this.getS4c2().remove(c);
                             coursSupprimer = true;
@@ -563,6 +571,9 @@ public class Semaine {
     public void ajoutCours(Cours s) throws IllegalAccessException {
         switch ( s.getGroupe().toLowerCase() )
         {
+            case "lpsmin":
+                this.LPSMIN.add(s);
+                break;
             case "s1a1":
                 this.s1a1.add(s);
                 break;
