@@ -12,13 +12,21 @@ import com.darwindeveloper.horizontalscrollmenulibrary.custom_views.HorizontalSc
 import com.darwindeveloper.horizontalscrollmenulibrary.extras.MenuItem;
 
 
+import java.text.DateFormat;
+
+import java.util.Calendar;
 import java.util.Date;
+
+import devs.mulham.horizontalcalendar.HorizontalCalendar;
+import devs.mulham.horizontalcalendar.HorizontalCalendarListener;
 
 
 public class MainActivity extends AppCompatActivity {
 
       HorizontalScrollMenuView menu;
       Date maDate = new Date();
+    private HorizontalCalendar calendar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +34,31 @@ public class MainActivity extends AppCompatActivity {
 
         menu = (HorizontalScrollMenuView) findViewById(R.id.menu);
         initMenu();
+
+        Calendar endDate = Calendar.getInstance();
+        endDate.add(Calendar.MONTH, 1);
+        Calendar startDate = Calendar.getInstance();
+        startDate.add(Calendar.MONTH, -1);
+
+        calendar = new HorizontalCalendar.Builder(this, R.id.calendarView)
+                .startDate(startDate.getTime())
+                .endDate(endDate.getTime())
+                .datesNumberOnScreen(5)
+                .dayNameFormat("EEE")
+                .dayNumberFormat("dd")
+                .monthFormat("MMM")
+                .textSize(14f, 24f, 14f)
+                .showDayName(true)
+                .showMonthName(true)
+                .build();
+
+        calendar.setCalendarListener(new HorizontalCalendarListener() {
+            @Override
+            public void onDateSelected(Date date, int position) {
+                Toast.makeText(MainActivity.this, DateFormat.getDateInstance().format(date) + " is selected!", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     public int getMois() {
