@@ -18,7 +18,7 @@ public class Main {
     public Semestre s1, s2, s3, s4;
     public LPSMIN lpsmin;
 
-    public Main(VEvent event)
+  /*  public Main(VEvent event)
     {
         try
         {
@@ -76,7 +76,7 @@ public class Main {
         }
         this.init();
     }
-
+*/
     public Main(ComponentList cl)
     {
         this.s = new Semaine();
@@ -89,7 +89,7 @@ public class Main {
             }
             catch (Exception e)
             {
-                Log.e("MAIN CONSTRUTEUR", "Main: Impossible de creer le cours !" );
+                Log.e("MAIN CONSTRUTEUR", e.getMessage() );
             }
         }
         this.init();
@@ -107,13 +107,7 @@ public class Main {
         this.s1lv2 = new Semestre1LV2(this.s);
         this.s2lv2 = new Semestre2LV2(this.s);
         this.s3lv2 = new Semestre3LV2(this.s);
-        /*
-            lpsmin.getEmplois_du_temps();
-            s1a.getEmplois_Du_Temps();
-            s1b.getEmplois_Du_Temps();
-            s1.getEmplois_du_temps();
-            s1lv2.getEmplois_du_temps();
-        */
+
     }
 
 }

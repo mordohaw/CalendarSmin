@@ -72,13 +72,9 @@ public class Database  extends SQLiteOpenHelper{
         }
         if(requete.endsWith(","))
         {
-            requete.replace((char)requete.charAt(requete.length()-1), ' ');
+            requete.substring(0,requete.length() - 1);
         }
         this.getWritableDatabase().execSQL(requete);
     }
-    /*public void updateCours(Cours c)
-    {
-        String requete = "UPDATE cours SET name = '"+c.getName()+"', ";
-    }*/
 
 }

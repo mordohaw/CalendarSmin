@@ -19,14 +19,18 @@ public class Cours {
     private DateCustom dateDebut, dateFin; // date de debut de cours et date de fin de cours
 
     //Pattern qui detecte dans une chaine les chaines suivantes : S1, S2, S3, S4, S1a, S1b, S1c, S1a1, S1b1, S1c1 etc...
-    private Pattern patternDUT = Pattern.compile("s[1-4]([lvLV]{2}2[a-z]+|(([abc])([12])?)?)",Pattern.CASE_INSENSITIVE);
+    private Pattern patternDUT = Pattern.compile("s[1-4]([a-c][12]?)?",Pattern.CASE_INSENSITIVE);
+    // Pattern qui detecte dans une chaine les chaines suivantes : S3LV2Italien , S3LV2Espagnol1 etc....
+    private Pattern patternDUTLangue = Pattern.compile("s[1-3]lv2[a-z]+[1-3]?", Pattern.CASE_INSENSITIVE);
     //Pattern qui detecte dans une chaine la chaine suivante : LPSMIN
     private Pattern patternLPSMIN = Pattern.compile("LPSMIN",Pattern.CASE_INSENSITIVE);
+    // Pattern qui detecte la chaine (Exporté le:XX/XX/XX XX:XX)
+    Pattern patternDateExportation = Pattern.compile("\\([a-zé\\s:0-9\\/]+\\)",Pattern.CASE_INSENSITIVE);
     private Matcher matcher;
 
 
     //Listes des professeur de l'IUT1 département MMI (Métier du multimédia et de l'internet
-    private String[] prof_liste = new String[]{
+    private String[] prof_list = new String[]{
             "ANDREACOLA Florence", "AUBERT Philippe", "CAYATTE Rémi",
 
             "COLOMB Dominique", "GAILLARD Francois", "GREMILLARD Jean-Marie",
@@ -49,20 +53,52 @@ public class Cours {
     }
 
     /**
-     * Detecter dans une chaine de caractere le nom du professeur
+     * Detecter le nom du professeur
      * @param event
-     * @return String
+     * @return String le nom du prof
      */
     private String extraireNomProf(VEvent event)
     {
-        if(this.groupe.equals(null) ) // On s'assure que la variable matcher est bien initilisé
-        {
-            this.extraireGroupe(event);
-        }
         String description = event.getDescription().getValue();
-        String nomProf = description.substring(this.matcher.end(), description.length()).replaceAll(" ",""); // On extrait le nom du prof selon le positionnement du nom du groupe
-        nomProf.replaceAll("^\\s",""); // On supprime les espaces, les retour à ligne etc ... de la chaine
-        return nomProf;
+
+        /*****************************************************************************************
+        *On check si parmi les nom connus des profs, il en existe un dans la description du cours
+        *******************************************************************************************/
+        for (String s : prof_list)
+        {
+            Pattern prof = Pattern.compile(s, Pattern.CASE_INSENSITIVE);
+            Matcher tmp_matcher = prof.matcher(description);
+            if(tmp_matcher.find())
+            {
+                return tmp_matcher.group();
+            }
+        }
+        /*************************************************
+        * Autrement on essaye d'extraire le nom du prof
+        **************************************************/
+        this.matcher = this.patternLPSMIN.matcher(description);
+        if(this.matcher.find())
+        { // On tester tout d'abord de detecter le mot LPSMIN dans la description
+            description = description.replaceAll(this.matcher.group(), "");
+        }
+        else
+        { // Sinon on essaye les groupes DUT S1A1 S1A2 etc ...
+
+            this.matcher = this.patternDUT.matcher(description);
+            while(this.matcher.find())
+            {
+                description = description.replaceAll(this.matcher.group(), "");
+            }
+        }
+        this.matcher = this.patternDateExportation.matcher(description);
+        if(this.matcher.find())
+        {
+            // On enleve la chaine de la date d'exportation
+            description = description.replaceAll(this.matcher.group(),"");
+        }
+        // On supprime les espaces
+        description = description.replaceAll("^\\s|\n|^\\r", "");
+        return description;
     }
 
     /**
@@ -70,25 +106,60 @@ public class Cours {
      * @param event
      * @return String
      */
-    private String extraireGroupe(VEvent event){
-
-        try
+    private String extraireGroupe(VEvent event)
+    {
+        String tmp_groupe = "";
+        this.matcher = this.patternLPSMIN.matcher(event.getDescription().getValue());
+        if( this.matcher.find())
         {
-            this.matcher = this.patternDUT.matcher(event.getDescription().getValue());
-        }
-        catch (Exception e)
-        {
-            try
+            String groupe_avec_espaces = this.matcher.group();
+            String[] arr = groupe_avec_espaces.split("\n|\\s|\r");
+            for(String ch : arr)
             {
-                this.matcher = this.patternLPSMIN.matcher(event.getDescription().getValue());
-            }
-            catch(Exception e1)
-            {
-                Log.e("ExtraireGroupe()", "extraireGroupe: Groupe cours introuvable" );
-                return null;
+                if(!ch.equals("") || ch.equalsIgnoreCase("\r"))
+                {
+                    tmp_groupe = ch;
+                }
             }
         }
-        return this.matcher.group();
+        else
+        {
+            Log.d("SUCCESS", "extraireGroupe: "+event.getDescription().getValue());
+            this.matcher = this.patternDUTLangue.matcher(event.getDescription().getValue());
+            if(this.matcher.find()) // Si c'est un cours de langue
+            {
+                String groupe_avec_espaces = this.matcher.group();
+                String[] arr = groupe_avec_espaces.split("\n|\\s|\r");
+                for(String ch : arr)
+                {
+                    if(!ch.equals("") || ch.equalsIgnoreCase("\r"))
+                    {
+                        tmp_groupe = ch;
+                    }
+                }
+            }
+            else
+            {
+                this.matcher = this.patternDUT.matcher(event.getDescription().getValue());
+                while(this.matcher.find())
+                {
+                    String groupe_avec_espaces = this.matcher.group();
+                    String[] arr = groupe_avec_espaces.split("\n|\\s|\r");
+                    for(String ch : arr)
+                    {
+                        if(!ch.equals("") || ch.equalsIgnoreCase("\r"))
+                        {
+                            tmp_groupe += ch + "-";
+                        }
+                    }
+                }
+                if( tmp_groupe.endsWith("-"))
+                {
+                    tmp_groupe = tmp_groupe.substring(0,tmp_groupe.length() - 1);
+                }
+            }
+        }
+        return tmp_groupe;
     }
 
     public void setGroupe(String groupe) {
