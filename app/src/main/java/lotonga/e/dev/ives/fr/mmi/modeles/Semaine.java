@@ -760,7 +760,7 @@ public class Semaine {
             }
             catch (Exception e)
             {
-                Log.d("DEBUG", "ajoutCours: "+ e.getMessage());
+                Log.d("DEBUG_CUSTOM", "ajoutCours: "+ e.getMessage());
             }
         }
     }
@@ -817,7 +817,6 @@ public class Semaine {
                 break;
             case "s3b":
                 this.s3b.add(c);
-                Log.d("Success", "ajoutCours:  S3B");
                 break;
             case "s3c":
                 this.s3c.add(c);
@@ -949,8 +948,7 @@ public class Semaine {
                 this.s3LV2Italien.add(c);
                 break;
             default:
-                Log.d("ERREUR", "ajoutCours: ERREUR !!!!");
-                throw new IllegalAccessException("L'identifiant du cours invalide ! => ******** *"+ c.getGroupe() +"* ********" );
+                Log.e("ERREUR", "ajoutCours: ERREUR !!!!",new IllegalAccessException("L'identifiant du cours invalide ! => ******** *"+ c.getGroupe() +"* ********" ));
         }
     }
 

@@ -11,11 +11,12 @@ public class DateCustom {
     private int minute;
     private int seconde;
 
-    /**
+    private String currentDateInString;
+ /*   *//**
      *
      * @param chaine String format =>  jj:mm:yyyy:h:min:s 11:05:2018:14:38:00
-     */
-    public DateCustom(String chaine)
+     *//*
+    public DateCustom(String chaine,boolean bd)
     {
         String[] tmp_array = chaine.split(":");
         if(tmp_array.length < 6)
@@ -28,9 +29,26 @@ public class DateCustom {
         this.setHeure(Integer.parseInt(tmp_array[3]));
         this.setMinute(Integer.parseInt(tmp_array[4]));
         this.setSeconde(Integer.parseInt(tmp_array[5]));
+    }*/
+
+    /**
+     * string format 20180111T070000Z
+     * @param date
+     */
+    public DateCustom(String date)
+    {
+        this.currentDateInString = date;
+        String[] arr_date = date.split("T");
+        this.setAnnee(Integer.parseInt(arr_date[0].substring(0,4)));
+        this.setMois(Integer.parseInt(arr_date[0].substring(4,6)));
+        this.setJour(Integer.parseInt(arr_date[0].substring(6,arr_date[0].length())));
+
+        this.setHeure(Integer.parseInt(arr_date[1].substring(0,2)));
+        this.setMinute(Integer.parseInt(arr_date[1].substring(2,4)));
+        this.setSeconde(Integer.parseInt(arr_date[1].substring(4,arr_date[1].length()-1)));
     }
 
-    public DateCustom(Date date)
+/*    public DateCustom(Date date)
     {
         this.annee = date.getYear();
         this.mois = date.getMonth();
@@ -38,7 +56,7 @@ public class DateCustom {
         this.heure = date.getHours();
         this.minute = date.getMinutes();
         this.seconde = date.getSeconds();
-    }
+    }*/
 
 
     public void setJour(int jour) {
@@ -151,9 +169,14 @@ public class DateCustom {
 
     }
 
-    public String toString()
-    {
-        String chaine = String.format("%d:%d:%d:%d:%d:%d",this.getJour(),this.getMois(),this.getAnnee(),this.getHeure(),this.getMinute(),this.getSeconde());
-        return chaine;
+    @Override
+    public String toString() {
+        String ch = String.format("%d/%d/%d %d:%d:%d", this.getJour(), this.getMois(), this.getAnnee(), this.getHeure(), this.getMinute(),this.getSeconde());
+        return ch;
     }
+    public String getValue()
+    {
+        return this.currentDateInString;
+    }
+
 }

@@ -25,7 +25,7 @@ public class Cours {
     //Pattern qui detecte dans une chaine la chaine suivante : LPSMIN
     private Pattern patternLPSMIN = Pattern.compile("LPSMIN",Pattern.CASE_INSENSITIVE);
     // Pattern qui detecte la chaine (Exporté le:XX/XX/XX XX:XX)
-    Pattern patternDateExportation = Pattern.compile("\\([a-zé\\s:0-9\\/]+\\)",Pattern.CASE_INSENSITIVE);
+    Pattern patternDateExportation = Pattern.compile("\\(([a-zé\\s:0-9\\/]+)?\\)",Pattern.CASE_INSENSITIVE);
     private Matcher matcher;
 
 
@@ -48,8 +48,8 @@ public class Cours {
         this.salle = event.getLocation().getValue();
         this.groupe = this.extraireGroupe(event);
         this.professeur = this.extraireNomProf(event);
-        this.dateDebut = new DateCustom(event.getStartDate().getDate());
-        this.dateFin = new DateCustom(event.getEndDate().getDate());
+        this.dateDebut = new DateCustom(event.getStartDate().getValue());
+        this.dateFin = new DateCustom(event.getEndDate().getValue());
     }
 
     /**
@@ -62,7 +62,7 @@ public class Cours {
         String description = event.getDescription().getValue();
 
         /*****************************************************************************************
-        *On check si parmi les nom connus des profs, il en existe un dans la description du cours
+        *On check si parmi les noms connus des profs, il en existe un dans la description du cours
         *******************************************************************************************/
         for (String s : prof_list)
         {
@@ -78,24 +78,36 @@ public class Cours {
         **************************************************/
         this.matcher = this.patternLPSMIN.matcher(description);
         if(this.matcher.find())
-        { // On tester tout d'abord de detecter le mot LPSMIN dans la description
+        { // On teste tout d'abord de supprimer le groupe dans la description
             description = description.replaceAll(this.matcher.group(), "");
         }
         else
-        { // Sinon on essaye les groupes DUT S1A1 S1A2 etc ...
-
-            this.matcher = this.patternDUT.matcher(description);
-            while(this.matcher.find())
+        {
+            // On essaye les groupes de langue
+            this.matcher = this.patternDUTLangue.matcher(description);
+            if(this.matcher.find())
             {
                 description = description.replaceAll(this.matcher.group(), "");
+            }
+            else
+            { // Sinon on essaye les groupes DUT S1A1 S1A2 etc ...
+
+                this.matcher = this.patternDUT.matcher(description);
+                while(this.matcher.find())
+                {
+                    description = description.replaceAll(this.matcher.group(), "");
+                }
             }
         }
         this.matcher = this.patternDateExportation.matcher(description);
         if(this.matcher.find())
-        {
-            // On enleve la chaine de la date d'exportation
+        {// On tente de supprimer egalement la chaine de la date d'exportation
             description = description.replaceAll(this.matcher.group(),"");
         }
+
+        // On supprime les parentheses
+        description = description.replaceAll("[\\s\\r\\n]+\\(\\)$", "");
+
         // On supprime les espaces
         description = description.replaceAll("^\\s|\n|^\\r", "");
         return description;
@@ -124,7 +136,6 @@ public class Cours {
         }
         else
         {
-            Log.d("SUCCESS", "extraireGroupe: "+event.getDescription().getValue());
             this.matcher = this.patternDUTLangue.matcher(event.getDescription().getValue());
             if(this.matcher.find()) // Si c'est un cours de langue
             {
