@@ -31,7 +31,9 @@ import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class TelechargerDepuisURL extends AsyncTask<String, String, String> {
+public class TelechargerDepuisURL extends AsyncTask<Object, String, String> {
+
+    int count;
 
     @Override
     protected void onPreExecute() {
@@ -39,9 +41,9 @@ public class TelechargerDepuisURL extends AsyncTask<String, String, String> {
     }
 
     @Override
-    protected String doInBackground(String... urlADE) {
+    protected String doInBackground(Object... objects) {
 
-        String url = urlADE[0];
+        String url =(String) objects[0];
         File nuevaCarpeta = new File(Environment.getExternalStorageDirectory(), "CalendarSMIN");
 
         if(nuevaCarpeta.exists())
@@ -54,8 +56,6 @@ public class TelechargerDepuisURL extends AsyncTask<String, String, String> {
         }
 
         File chemin = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"CalendarSMIN", "ADE.ics");
-
-        //File destination = new File(Environment.getExternalStorageDirectory(), "ADE.ics");
 
         try{
             HttpClient client = HttpClientBuilder.create().build();
@@ -79,7 +79,7 @@ public class TelechargerDepuisURL extends AsyncTask<String, String, String> {
             e.printStackTrace();
             return "Download Error !";
         }
-        return "Download Succes, "+fileWasCreated();
+        return "Download, "+fileWasCreated();
     }
 
     @Override
@@ -102,8 +102,8 @@ public class TelechargerDepuisURL extends AsyncTask<String, String, String> {
 
         if (fichier.isFile())
         {
-            afficherFichier();
-            return "Fichier crée";
+
+            return afficherFichier();
         }
         else
         {
@@ -111,7 +111,7 @@ public class TelechargerDepuisURL extends AsyncTask<String, String, String> {
         }
     }
 
-    public void afficherFichier() {
+    public String afficherFichier() {
         String cadena;
         try {
             File fichier = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"CalendarSMIN"+File.separator+"ADE.ics");
@@ -151,13 +151,17 @@ public class TelechargerDepuisURL extends AsyncTask<String, String, String> {
 
             Log.i("COMPONENTS ICS ", cl.toString());
 
+            return "Succesful Calendar ICS";
 
             } catch (FileNotFoundException e2) {
             e2.printStackTrace();
+            return "Error 1 Calendar ICS";
         } catch (IOException e2) {
             e2.printStackTrace();
+            return "Error 2 Calendar ICS";
         } catch (ParserException e) {
             e.printStackTrace();
+            return "Error 3Calendar ICS";
         }
     }
 }

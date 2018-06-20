@@ -32,6 +32,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import lotonga.e.dev.ives.fr.mmi.TelechargerFichierICS.TelechargerDepuisURL;
@@ -39,6 +41,9 @@ import lotonga.e.dev.ives.fr.mmi.TelechargerFichierICS.TelechargerDepuisURL;
 public class MainActivity extends GeneralActivity {
 
     Button btn;
+    int count = 0;
+
+    final long TIME_TASK = 900000;
 
     protected boolean shouldAskPermissions() {
         return (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP_MR1);
@@ -68,24 +73,41 @@ public class MainActivity extends GeneralActivity {
 
     public void click(View view)
     {
-        String urlADEics = "http://ade6-ujf-ro.grenet.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=7265&projectId=2&calType=ical&firstDate=2018-05-13&lastDate=2018-05-18";
+        final String urlADEics = "http://ade6-ujf-ro.grenet.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=7265&projectId=2&calType=ical&firstDate=2018-05-13&lastDate=2018-05-18";
 
-        TelechargerDepuisURL telechergaADE = new TelechargerDepuisURL();
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        //new AttemptUpdate().execute();
+                        Log.i("tag", "This'll run 15 minutes later");
 
-        String response = "";
-
-        try {
-            response = telechergaADE.execute(urlADEics).get();
+                        TelechargerDepuisURL telechergaADE = new TelechargerDepuisURL();
 
 
+                        String response = "";
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
 
-        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                        try {
+                            response = telechergaADE.execute(urlADEics).get();
+
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
+
+                        Toast.makeText(MainActivity.this, response+" "+count, Toast.LENGTH_SHORT).show();
+
+                        count++;
+                    }
+                });
+            }
+        }, 0, TIME_TASK);
 
     }
 
