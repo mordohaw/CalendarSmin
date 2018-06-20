@@ -37,6 +37,7 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import lotonga.e.dev.ives.fr.mmi.TelechargerFichierICS.TelechargerDepuisURL;
+import lotonga.e.dev.ives.fr.mmi.modeles.Main;
 
 public class MainActivity extends GeneralActivity {
 
@@ -60,9 +61,11 @@ public class MainActivity extends GeneralActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         if (shouldAskPermissions()) {
             askPermissions();
@@ -70,6 +73,8 @@ public class MainActivity extends GeneralActivity {
 
         btn = (Button) findViewById(R.id.telecharge);
     }
+
+
 
     public void click(View view)
     {
@@ -110,6 +115,8 @@ public class MainActivity extends GeneralActivity {
         }, 0, TIME_TASK);
 
     }
+
+
 
 
 }

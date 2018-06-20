@@ -8,6 +8,7 @@ public class Semestre2 extends Semestre {
     public Semestre2( Semaine semaine )
     {
         super();
+        this.setAmphi(semaine.getS2());
         this.s2a = new Semestre2A( semaine );
         this.s2b = new Semestre2B( semaine );
         this.s2c = new Semestre2C( semaine );
@@ -50,16 +51,27 @@ public class Semestre2 extends Semestre {
 
         private ArrayList<Cours> s2a1;
         private ArrayList<Cours> s2a2;
+        private ArrayList<Cours> s2a;
 
         public Semestre2A(Semaine semaine)
         {
             super();
+            this.setS2a(semaine.getS2a());
             this.setS2a1(semaine.getS2a1());
             this.setS2a2(semaine.getS2a2());
             this.emplois_du_temps.put("s2a1", this.getS2a1());
             this.emplois_du_temps.put("s2a2", this.getS2a2());
+            this.emplois_du_temps.put("s2a", this.getS2a());
         }
 
+
+        public ArrayList<Cours> getS2a() {
+            return s2a;
+        }
+
+        public void setS2a(ArrayList<Cours> s2a) {
+            this.s2a = s2a;
+        }
 
         public ArrayList<Cours> getS2a1() {
             return s2a1;
@@ -87,6 +99,10 @@ public class Semestre2 extends Semestre {
             {
                 this.s2a2.add(c);
             }
+            else if(c.getGroupe().equalsIgnoreCase("s2a")&& !this.s2a.contains(c))
+            {
+                this.s2a.add(c);
+            }
         }
 
         @Override
@@ -110,6 +126,14 @@ public class Semestre2 extends Semestre {
                             break;
                         }
                     }
+                case "s2a":
+                    for (Cours c1: this.s2a) {
+                        if(c.getUid().equalsIgnoreCase(c1.getUid()))
+                        {
+                            this.s2a.remove(c1);
+                            break;
+                        }
+                    }
             }
         }
     }
@@ -124,16 +148,26 @@ public class Semestre2 extends Semestre {
 
         private ArrayList<Cours> s2b1;
         private ArrayList<Cours> s2b2;
+        private ArrayList<Cours> s2b;
 
         public Semestre2B(Semaine semaine)
         {
             super();
+            this.setS2b(semaine.getS2b());
             this.setS2b1(semaine.getS2b1());
             this.setS2b2(semaine.getS2b2());
             this.emplois_du_temps.put("s2b1", this.getS2b1());
             this.emplois_du_temps.put("s2b2", this.getS2b2());
+            this.emplois_du_temps.put("s2b", this.getS2b());
         }
 
+        public ArrayList<Cours> getS2b() {
+            return s2b;
+        }
+
+        public void setS2b(ArrayList<Cours> s2b) {
+            this.s2b = s2b;
+        }
 
         public ArrayList<Cours> getS2b1() {
             return s2b1;
@@ -161,6 +195,10 @@ public class Semestre2 extends Semestre {
             {
                 this.s2b2.add(c);
             }
+            else if(c.getGroupe().equalsIgnoreCase("s2b") && !this.s2b.contains(c))
+            {
+                this.s2b.add(c);
+            }
         }
 
         @Override
@@ -184,6 +222,16 @@ public class Semestre2 extends Semestre {
                             this.s2b2.remove(c1);
                         }
                     }
+                    break;
+                case "s2b":
+                    for (Cours c1 : this.s2b )
+                    {
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
+                        {
+                            this.s2b.remove(c1);
+                        }
+                    }
+                    break;
             }
         }
     }
@@ -200,15 +248,25 @@ public class Semestre2 extends Semestre {
 
         private ArrayList<Cours> s2c1;
         private ArrayList<Cours> s2c2;
+        private ArrayList<Cours> s2c;
 
         public Semestre2C(Semaine semaine)
         {
             super();
+            this.setS2c(semaine.getS2c());
             this.setS2c1(semaine.getS2c1());
             this.setS2c2(semaine.getS2c2());
             this.emplois_du_temps.put("s2c1", this.getS2c1());
             this.emplois_du_temps.put("s2c2", this.getS2c2());
+            this.emplois_du_temps.put("s2c", this.getS2c());
+        }
 
+        public ArrayList<Cours> getS2c() {
+            return s2c;
+        }
+
+        public void setS2c(ArrayList<Cours> s2c) {
+            this.s2c = s2c;
         }
 
         public ArrayList<Cours> getS2c1() {
@@ -240,6 +298,10 @@ public class Semestre2 extends Semestre {
             {
                 this.s2c2.add(c);
             }
+            else if( c.getGroupe().equalsIgnoreCase("s2c") && !this.s2c.contains(c))
+            {
+                this.s2c.add(c);
+            }
 
         }
 
@@ -265,6 +327,16 @@ public class Semestre2 extends Semestre {
                             this.s2c2.remove(c1);
                         }
                     }
+                    break;
+                case "s2c":
+                    for (Cours c1 : this.s2c )
+                    {
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
+                        {
+                            this.s2c.remove(c1);
+                        }
+                    }
+                    break;
             }
         }
     }

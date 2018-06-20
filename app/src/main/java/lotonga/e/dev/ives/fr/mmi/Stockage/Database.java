@@ -51,8 +51,8 @@ public class Database  extends SQLiteOpenHelper{
                          "','"+c.getSalle()+
                          "','"+c.getProfesseur()+
                          "','"+c.getGroupe()+
-                         "','"+c.getDateDebut().toString()+
-                         "','"+c.getDateFin().toString()+"')";
+                         "','"+c.getDateDebut().getValue()+
+                         "','"+c.getDateFin().getValue()+"')";
         this.getWritableDatabase().execSQL(requete);
         Log.i("Database Insert", "insertCours: Insert INTO cours");
     }
@@ -67,18 +67,15 @@ public class Database  extends SQLiteOpenHelper{
     public void updateCours(String uid, HashMap<String, String> values)
     {
         String requete = "UPDATE cours SET ";
-        for (Map.Entry me : values.entrySet()) {
+        for (Map.Entry me : values.entrySet())
+        {
             requete += me.getKey()+" = '"+me.getValue()+"',";
         }
         if(requete.endsWith(","))
         {
-            requete.replace((char)requete.charAt(requete.length()-1), ' ');
+            requete.substring(0,requete.length() - 1);
         }
         this.getWritableDatabase().execSQL(requete);
     }
-    /*public void updateCours(Cours c)
-    {
-        String requete = "UPDATE cours SET name = '"+c.getName()+"', ";
-    }*/
 
 }

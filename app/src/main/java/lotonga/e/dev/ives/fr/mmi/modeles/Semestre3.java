@@ -1,5 +1,6 @@
 package lotonga.e.dev.ives.fr.mmi.modeles;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,6 +11,7 @@ public class Semestre3 extends Semestre {
     public Semestre3(Semaine semaine )
     {
         super();
+        this.setAmphi(semaine.getS3());
         this.s3a = new Semestre3A( semaine );
         this.s3b = new Semestre3B( semaine );
         this.s3c = new Semestre3C( semaine );
@@ -54,16 +56,26 @@ public class Semestre3 extends Semestre {
 
         private ArrayList<Cours> s3a1;
         private ArrayList<Cours> s3a2;
+        private ArrayList<Cours> s3a;
 
         public Semestre3A( Semaine semaine)
         {
             super();
+            this.setS3a(semaine.getS3a());
             this.setS3a1(semaine.getS3a1());
             this.setS3a2(semaine.getS3a2());
-            this.emplois_du_temps.put("s3a1", semaine.getS3a1());
-            this.emplois_du_temps.put("s3a2", semaine.getS3a2());
+            this.emplois_du_temps.put("s3a1", this.getS3a1());
+            this.emplois_du_temps.put("s3a2", this.getS3a2());
+            this.emplois_du_temps.put("s3a", this.getS3a());
         }
 
+        public ArrayList<Cours> getS3a() {
+            return s3a;
+        }
+
+        public void setS3a(ArrayList<Cours> s3a) {
+            this.s3a = s3a;
+        }
 
         public ArrayList<Cours> getS3a1() {
             return s3a1;
@@ -93,6 +105,10 @@ public class Semestre3 extends Semestre {
             {
                 this.s3a2.add(c);
             }
+            else if(c.getGroupe().equalsIgnoreCase("s3a") && !this.s3a.contains(c))
+            {
+                this.s3a.add(c);
+            }
         }
 
         @Override
@@ -114,7 +130,16 @@ public class Semestre3 extends Semestre {
                     {
                         if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
-                            this.s3a1.remove(c1);
+                            this.s3a2.remove(c1);
+                        }
+                    }
+                    break;
+                case "s3a":
+                    for(Cours c1 : this.s3a)
+                    {
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
+                        {
+                            this.s3a.remove(c1);
                         }
                     }
                     break;
@@ -132,16 +157,27 @@ public class Semestre3 extends Semestre {
 
         private ArrayList<Cours> s3b1;
         private ArrayList<Cours> s3b2;
+        private ArrayList<Cours> s3b;
 
         public Semestre3B(Semaine semaine)
         {
             super();
+            this.setS3b(semaine.getS3b());
             this.setS3b1(semaine.getS3b1());
             this.setS3b2(semaine.getS3b2());
             this.emplois_du_temps.put("s3b1", this.getS3b1());
             this.emplois_du_temps.put("s3b2", this.getS3b2());
+            this.emplois_du_temps.put("s3b", this.getS3b());
         }
 
+
+        public ArrayList<Cours> getS3b() {
+            return s3b;
+        }
+
+        public void setS3b(ArrayList<Cours> s3b) {
+            this.s3b = s3b;
+        }
 
         public ArrayList<Cours> getS3b1() {
             return s3b1;
@@ -171,6 +207,10 @@ public class Semestre3 extends Semestre {
             {
                 this.s3b2.add(c);
             }
+            else if(c.getGroupe().equalsIgnoreCase("s3a") && !this.s3b.contains(c))
+            {
+                this.s3b.add(c);
+            }
         }
 
         @Override
@@ -192,7 +232,16 @@ public class Semestre3 extends Semestre {
                     {
                         if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
-                            this.s3b1.remove(c1);
+                            this.s3b2.remove(c1);
+                        }
+                    }
+                    break;
+                case "s3b":
+                    for(Cours c1 : this.s3b)
+                    {
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
+                        {
+                            this.s3b.remove(c1);
                         }
                     }
                     break;
@@ -211,16 +260,27 @@ public class Semestre3 extends Semestre {
 
         private ArrayList<Cours> s3c1;
         private ArrayList<Cours> s3c2;
+        private ArrayList<Cours> s3c;
 
         public Semestre3C( Semaine semaine)
         {
             super();
+            this.setS3c(semaine.getS3c());
             this.setS3c1(semaine.getS3c1());
             this.setS3c2(semaine.getS3c2());
             this.emplois_du_temps.put("s3c1", this.getS3c1());
             this.emplois_du_temps.put("s3c2", this.getS3c2());
+            this.emplois_du_temps.put("s3c",this.getS3c());
         }
 
+
+        public ArrayList<Cours> getS3c() {
+            return s3c;
+        }
+
+        public void setS3c(ArrayList<Cours> s3c) {
+            this.s3c = s3c;
+        }
 
         public ArrayList<Cours> getS3c1() {
             return s3c1;
@@ -250,6 +310,10 @@ public class Semestre3 extends Semestre {
             {
                 this.s3c2.add(c);
             }
+            else if(c.getGroupe().equalsIgnoreCase("s3c") && !this.s3c.contains(c))
+            {
+                this.s3c.add(c);
+            }
         }
 
         @Override
@@ -271,7 +335,16 @@ public class Semestre3 extends Semestre {
                     {
                         if(c1.getUid().equalsIgnoreCase(c.getUid()))
                         {
-                            this.s3c1.remove(c1);
+                            this.s3c2.remove(c1);
+                        }
+                    }
+                    break;
+                case "s3c":
+                    for(Cours c1 : this.s3c)
+                    {
+                        if(c1.getUid().equalsIgnoreCase(c.getUid()))
+                        {
+                            this.s3c.remove(c1);
                         }
                     }
                     break;
