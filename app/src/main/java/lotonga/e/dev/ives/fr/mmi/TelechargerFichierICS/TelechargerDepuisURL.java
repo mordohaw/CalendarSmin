@@ -2,7 +2,13 @@ package lotonga.e.dev.ives.fr.mmi.TelechargerFichierICS;
 
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.Toast;
+
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.data.ParserException;
+import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.ComponentList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -11,127 +17,147 @@ import org.apache.http.impl.client.HttpClientBuilder;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-public class TelechargerDepuisURL {
+public class TelechargerDepuisURL extends AsyncTask<String, String, String> {
 
+    @Override
+    protected void onPreExecute() {
+        super.onPreExecute();
+    }
 
-    private static String base_url= "http://ade6-ujf-ro.grenet.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=5946,5945,5944,4592,7357,7836,7350,7335,7334,7326,4907,4898,7385,7384,7317,7265,7390,7389,7387,7380,7395,7394,5055,5057,5029,5028,5024,5023,7373,7369,7367,7364,2650,7360,7377,7396,7375,7338,7399,7398&projectId=2&calType=ical&";
-    //private static String destination = "";
-    private static String reponseDowload = "";
+    @Override
+    protected String doInBackground(String... urlADE) {
 
-    private static String getCurrentDate()
-    {
-        int year, month, day;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            LocalDateTime date = LocalDateTime.now();
-            year = date.getYear();
-            month = date.getMonthValue();
-            day = date.getDayOfMonth();
-            //ZonedDateTime zdt = ZonedDateTime.now();
+        String url = urlADE[0];
+        File nuevaCarpeta = new File(Environment.getExternalStorageDirectory(), "CalendarSMIN");
+
+        if(nuevaCarpeta.exists())
+        {
+
         }
         else
         {
-
-            Date date = new Date();
-            year = date.getYear();
-            month = date.getMonth();
-            day = date.getDay();
+            nuevaCarpeta.mkdirs();
         }
-        String ch = String.format("%d-%d-%d",year,month, day );
-        return ch;
-    }
 
-    /**
-     *
-     * @param dateFin => format yyyy-mm-jj
-     * @return
-     */
-    public static BufferedReader getContent(String dateFin)
-    {
-        base_url += "firstDate="+getCurrentDate()+"&lastDate="+dateFin;
-        try
-        {
+        File chemin = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"CalendarSMIN", "ADE.ics");
+
+        //File destination = new File(Environment.getExternalStorageDirectory(), "ADE.ics");
+
+        try{
             HttpClient client = HttpClientBuilder.create().build();
-            HttpGet request = new HttpGet(base_url);
-            // add request header
-            //request.addHeader("User-Agent", USER_AGENT);
+            HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
-            System.out.println("Response Code : "
-                    + response.getStatusLine().getStatusCode());
-            //response.
 
+            String line = "";
             BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-            return rd;
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(chemin), "utf-8") );
+
+            while ((line = rd.readLine()) != null) {
+
+                writer.append(line);
+                writer.newLine();
+
+            }
+            writer.close();
         }
         catch(Exception e)
-        {}
-        return null;
-    }
-
-    public static String TelechargerFichier()
-    {
-        String urlADEics = "http://ade6-ujf-ro.grenet.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=7265&projectId=2&calType=ical&firstDate=2018-05-13&lastDate=2018-05-18";
-
-        new TelechargeADE().execute(urlADEics);
-
-        return reponseDowload;
-    }
-
-
-    static class TelechargeADE extends AsyncTask<String, Integer, String>
-    {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        {
+            e.printStackTrace();
+            return "Download Error !";
         }
+        return "Download Succes, "+fileWasCreated();
+    }
 
-        @Override
-        protected String doInBackground(String... urlADE) {
+    @Override
+    protected void onProgressUpdate(String ... value) {
+        super.onProgressUpdate(value);
+    }
 
-            String url = urlADE[0];
-            File destination = new File(Environment.getExternalStorageDirectory(), "ADE.ics");
+    @Override
+    protected void onPostExecute(String message) {
+        super.onPostExecute(message);
 
-            try{
-                HttpClient client = HttpClientBuilder.create().build();
-                HttpGet request = new HttpGet(url);
-                HttpResponse response = client.execute(request);
 
-                String line = "";
-                BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(destination), "utf-8") );
 
-                while ((line = rd.readLine()) != null) {
+    }
 
-                    writer.append(line);
-                    writer.newLine();
 
+    public String fileWasCreated()
+    {
+        File fichier = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"CalendarSMIN"+File.separator+"ADE.ics");
+
+        if (fichier.isFile())
+        {
+            afficherFichier();
+            return "Fichier crée";
+        }
+        else
+        {
+            return "Fichier n'a pas été crée";
+        }
+    }
+
+    public void afficherFichier() {
+        String cadena;
+        try {
+            File fichier = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+File.separator+"CalendarSMIN"+File.separator+"ADE.ics");
+
+            File archivo = null;
+            FileReader fr = null;
+            BufferedReader br = null;
+
+
+                // Apertura del fichero y creacion de BufferedReader para poder
+                // hacer una lectura comoda (disponer del metodo readLine()).
+                //archivo = new File (String.valueOf(fichier));
+                fr = new FileReader (fichier);
+                br = new BufferedReader(fr);
+
+                StringBuffer ics = new StringBuffer();
+
+                // Lectura del fichero
+                String linea;
+                while((linea=br.readLine())!=null)
+                {
+                    //Log.i("READ FICHIER ", linea);
+                    ics.append(linea+"\r\n");
+                    //Log.i("READ FICHIER ", ics.toString());
                 }
-                writer.close();
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-                return "Download Error !";
-            }
-            return "Download Succes";
-        }
+            String myCalendarString = ics.toString();
 
-        @Override
-        protected void onProgressUpdate(Integer... value) {
-            super.onProgressUpdate(value);
-        }
+            StringReader sin = new StringReader(myCalendarString);
 
-        @Override
-        protected void onPostExecute(String message) {
-            super.onPostExecute(message);
-            reponseDowload = message;
+            CalendarBuilder builder = new CalendarBuilder();
+
+            Calendar calendar = builder.build(sin);
+
+            String toto = "toto";
+
+            ComponentList cl = calendar.getComponents();
+
+            Log.i("COMPONENTS ICS ", cl.toString());
+
+
+            } catch (FileNotFoundException e2) {
+            e2.printStackTrace();
+        } catch (IOException e2) {
+            e2.printStackTrace();
+        } catch (ParserException e) {
+            e.printStackTrace();
         }
     }
-
 }

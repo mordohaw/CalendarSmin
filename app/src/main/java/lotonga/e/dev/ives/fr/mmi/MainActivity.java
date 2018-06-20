@@ -32,10 +32,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.util.concurrent.ExecutionException;
 
 import lotonga.e.dev.ives.fr.mmi.TelechargerFichierICS.TelechargerDepuisURL;
 
-public class MainActivity extends Activity {
+public class MainActivity extends GeneralActivity {
 
     Button btn;
 
@@ -69,58 +70,24 @@ public class MainActivity extends Activity {
     {
         String urlADEics = "http://ade6-ujf-ro.grenet.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=7265&projectId=2&calType=ical&firstDate=2018-05-13&lastDate=2018-05-18";
 
-        new TelechargeADE().execute(urlADEics);
+        TelechargerDepuisURL telechergaADE = new TelechargerDepuisURL();
+
+        String response = "";
+
+        try {
+            response = telechergaADE.execute(urlADEics).get();
+
+
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+
     }
 
 
-    public class TelechargeADE extends AsyncTask<String, String, String>
-    {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
-
-        @Override
-        protected String doInBackground(String... urlADE) {
-
-            String url = urlADE[0];
-            File destination = new File(Environment.getExternalStorageDirectory(), "ADE.ics");
-
-            try{
-                HttpClient client = HttpClientBuilder.create().build();
-                HttpGet request = new HttpGet(url);
-                HttpResponse response = client.execute(request);
-
-                String line = "";
-                BufferedReader rd = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(destination), "utf-8") );
-
-                while ((line = rd.readLine()) != null) {
-
-                    writer.append(line);
-                    writer.newLine();
-
-                }
-                writer.close();
-            }
-            catch(Exception e)
-            {
-                e.printStackTrace();
-                return "Download Error !";
-            }
-            return "Download Succes";
-        }
-
-        @Override
-        protected void onProgressUpdate(String ... value) {
-            super.onProgressUpdate(value);
-        }
-
-        @Override
-        protected void onPostExecute(String message) {
-            super.onPostExecute(message);
-
-            Toast.makeText(getApplicationContext(), message, Toast.LENGTH_SHORT).show();
-        }
-    }
 }

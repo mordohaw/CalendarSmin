@@ -30,6 +30,7 @@ public abstract class GeneralActivity extends AppCompatActivity {
             CalendarBuilder builder = new CalendarBuilder();
             //CALENDAR
             Calendar calendar = builder.build(files);
+
             ComponentList cl = calendar.getComponents();
             Log.d("READ ICS FILE", "onCreate() called with: savedInstanceState = [" + "]");
             return cl;
