@@ -14,10 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import net.fortuna.ical4j.data.CalendarBuilder;
-import net.fortuna.ical4j.data.ParserException;
-import net.fortuna.ical4j.model.Calendar;
-import net.fortuna.ical4j.model.ComponentList;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -32,6 +28,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
@@ -72,13 +72,37 @@ public class MainActivity extends GeneralActivity {
         }
 
         btn = (Button) findViewById(R.id.telecharge);
+
+
     }
 
 
 
     public void click(View view)
     {
-        final String urlADEics = "http://ade6-ujf-ro.grenet.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=7265&projectId=2&calType=ical&firstDate=2018-05-13&lastDate=2018-05-18";
+
+        String begimDate, endDate;
+        //Date actuelle
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        begimDate = dateFormat.format(date);
+        System.out.println("Date debut : "+begimDate);
+
+        //Date après 7 jours
+        Date date1 = new Date();
+        DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date1);
+        cal.add(Calendar.DATE, 7);
+        date = cal.getTime();
+        endDate = dateFormat1.format(date);
+
+        System.out.println("Date Fin : "+endDate);
+
+        final String urlADEics = "http://ade6-ujf-ro.grenet.fr/jsp/custom/modules/plannings/anonymous_cal.jsp?resources=7265&projectId=2&calType=ical&firstDate="+begimDate+"&lastDate="+endDate;
+
+        System.out.println("URL String ADE  => "+urlADEics);
 
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
